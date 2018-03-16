@@ -4,30 +4,23 @@ import pandas as pd
 
 class Soya(object):
     def __init__(self, input_dict, engine):
-        self.input_dict = input_dict
-        self.data = None
         self.engine = engine
-        self.result = None
-        for table in input_dict.keys():
-            # make table name to be an attr like 'self.data.stocks'
+        self.input_dict= input_dict
 
-    def data_import(self):
+    def _datum_import(self):
+        datum = {}
         for table, fields in self.input_dict.items():
-            self.data.table = pd.read_sql('sql', self.engine, chunksize=)
+            datum[table] = pd.read_sql('sql', self.engine, chunksize=)
+        return datum
 
-    def model(self):
+    def model(self, datum):
         # main cal
-        self.result.names = ...
-        self.result.fields = ...
-        self.result.data = ...
+        return result
 
+    def _datum_export(self, result, out_name):
+        result.to_sql(self.engine, out_name)
 
-    def data_export(self):
-        pass
-        self.result.data.to_sql(self.result.name, self.engine)
-
-    def run(self):
-        self.data_import()
-        self.model()
-        self.data_export()
+    def run(self, out_name):
+        datum = self._datum_import()
+        self.datum_export(self.model(datum), out_name)
 
