@@ -6,6 +6,8 @@ before_script:
     - chmod 400 ~/.ssh/id_rsa
     - pip install -r requirements.txt -i $PYPI_SOURCE
 
+image: windworship/python-base-image:centos
+
 stages:
     - test
     - deploy
