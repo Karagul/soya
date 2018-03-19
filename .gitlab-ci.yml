@@ -1,0 +1,37 @@
+before_script:
+    - yum install openssh openssh-clients -y
+    - mkdir ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo $SSH_PUBLIC_KEY > ~/.ssh/id_rsa.pub
+    - ssh-keyscan -H -t rsa github.com >> ~/.ssh/known_hosts
+    - chmod 400 ~/.ssh/id_rsa
+    - pip install -r requirements.txt -i $PYPI_SOURCE
+
+image: windworship/python-base-image:centos
+
+stages:
+    - test
+    - deploy
+
+test:
+    stage: test
+    script:
+        - python setup.py nosetests
+        - python setup.py flake8
+
+deploy:
+    stage: deploy
+    script:
+        - echo "$PYPI_INI" > ~/.pypirc
+        - python setup.py sdist upload
+    environment:
+        name: deploy
+    only:
+        - tags
+
+mirror:
+    stage: deploy
+    script:
+        - git push --tag "git@github.com:chancefocus/soya.git" $CI_COMMIT_REF_NAME
+    only:
+        - tags
