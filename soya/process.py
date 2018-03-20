@@ -33,7 +33,8 @@ class Soya(object):
         """Import datumn from sql
 
         Return:
-            datum: a `dict` of  (`DataFrame` or `iterator` if read chunksize is not None)
+            datum: a `dict` of  (`DataFrame` or `iterator`
+                    if read chunksize is not None)
         """
         return {
             tablename: pd.read_sql(
@@ -46,18 +47,24 @@ class Soya(object):
         """Main process method to cal the datum
 
         Args:
-            datum: a `dict` of  (`DataFrame` or `iterator` if read chunksize is not None)
+            datum: a `dict` of  (`DataFrame` or `iterator`
+                    if read chunksize is not None)
 
         Return:
             result: `DataFrame`
         """
         return None
 
-    def run(self, result_name)
+    def run(self, result_name):
         """Run model to database
 
         Args:
             result_name: `str` of output result name
         """
-        datum = self._datum_import()
-
+        result = self.model(self._datum_import())
+        if result is not None:
+            result.to_sql(
+                name=result_name, con=self.engine,
+                chunksize=self.writechunksize, if_exists='append',
+                index=False
+            )
