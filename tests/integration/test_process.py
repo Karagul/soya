@@ -37,11 +37,12 @@ class TestDatumImport(object):
         """
         test_soya = Soya(
             engine=self.test_engine,
-            input_dict={'table0': ['num1', ],
-            read_chunksize=2}
+            input_dict={'table0': ['num1', ]},
+            read_chunksize=2
         )
         expect_results = {'table0': pd.DataFrame({'num1': iter([[7, 8], [9]]})}
         results = test_soya._datum_import()
+        print results['table0']
 
         for key, value in expect_results.items():
             assert value.equals(results[key])
