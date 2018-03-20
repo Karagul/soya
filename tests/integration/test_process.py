@@ -20,11 +20,27 @@ class TestDatumImport(object):
         )
 
     def test_soya_datum_import_no_chunk(self):
+        """Check if `_datum_import` works with no chunksize
+        """
         test_soya = Soya(
             engine=self.test_engine,
             input_dict={'table0': ['num1', ]}
         )
         expect_results = {'table0': pd.DataFrame({'num1': [7, 8, 9]})}
+        results = test_soya._datum_import()
+
+        for key, value in expect_results.items():
+            assert value.equals(results[key])
+
+    def test_soya_datum_import_chunk(self):
+        """Check if `_datum_import` works with chunksize
+        """
+        test_soya = Soya(
+            engine=self.test_engine,
+            input_dict={'table0': ['num1', ],
+            read_chunksize=2}
+        )
+        expect_results = {'table0': pd.DataFrame({'num1': iter([[7, 8], [9]]})}
         results = test_soya._datum_import()
 
         for key, value in expect_results.items():
