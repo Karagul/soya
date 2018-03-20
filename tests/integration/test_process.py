@@ -30,7 +30,7 @@ class TestDatumImport(object):
         results = test_soya._datum_import()
 
         for key, value in expect_results.items():
-            assert value.equals(results[key])
+            pd.testing.assert_frame_equal(value, results[key])
 
     def test_soya_datum_import_chunk(self):
         """Check if `_datum_import` works with chunksize
@@ -43,10 +43,11 @@ class TestDatumImport(object):
         expect_results = {
             'table0': [
                 pd.DataFrame({'num1': [7, 8]}),
-                pd.DataFrame({'num1': [9,]})
+                pd.DataFrame({'num1': [9, ]})
             ]
         }
         results = test_soya._datum_import()
 
-        for key, value in expect_results.items():
-            assert value.equals(results[key])
+        pd.testing.assert_frame_equal(expect_value, results[key])
+        for expect_value, value in zip(expect_values, results[key]
+        for key, expect_values in expect_results.items()
