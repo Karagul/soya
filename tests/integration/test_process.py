@@ -28,5 +28,4 @@ class TestDatumImport(object):
         results = test_soya._datum_import()
 
         for key, value in expect_results.items():
-            assert value.equal(results[key])
-
+            assert value.equals(results[key])
