@@ -44,7 +44,7 @@ class TestDatumImport(object):
             'table0': pd.DataFrame({'num1': iter([[7, 8], [9]])})
         }
         results = test_soya._datum_import()
-        print results['table0']
+        print 'aaaaaaa', results['table0']
 
         for key, value in expect_results.items():
             assert value.equals(results[key])
