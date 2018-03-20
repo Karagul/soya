@@ -23,7 +23,7 @@ class TestDatumImport(object):
     def test_soya_datum_import_no_chunk(self):
         test_soya = Soya(
             engine=self.test_engine,
-            input_dict={'table0', ['num1', ]}
+            input_dict={'table0': ['num1', ]}
         )
 
         assert_equals(
