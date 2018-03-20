@@ -19,6 +19,13 @@ test:
         - python setup.py nosetests
         - python setup.py flake8
 
+services:
+    - mysql
+
+variables:
+    MYSQL_DATABASE: soya_test
+    MYSQL_ROOT_PASSWORD: password
+
 deploy:
     stage: deploy
     script:
