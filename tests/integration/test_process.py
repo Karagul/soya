@@ -50,4 +50,4 @@ class TestDatumImport(object):
 
         for key, expect_values in expect_results.items():
             for expect_value, value in zip(expect_values, results[key]):
-                pd.testing.assert_frame_equal(expect_value, results[key])
+                pd.testing.assert_frame_equal(expect_value, value)
