@@ -41,7 +41,7 @@ class TestDatumImport(object):
             read_chunksize=2
         )
         expect_results = {
-            'table0': pd.DataFrame({'num1': iter([[7, 8], [9]])})
+            'table0': pd.DataFrame({'num1': [[7, 8], [9]]})
         }
         results = test_soya._datum_import()
         print 'aaaaaaa', results['table0']
