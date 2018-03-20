@@ -12,10 +12,10 @@ def test_Soya_init():
     """Check if `Soya.__init__` works
     """
     model = Soya(
-        engine='test', input_dict={'test': ['test']}, read_chunk_size=6
+        engine='test', input_dict={'test': ['test']}, read_chunksize=6
     )
 
     assert_equals(model.engine, 'test')
     assert_equals(model.input_dict, {'test': ['test']})
-    assert_equals(model.read_chunk_size, 6)
-    assert_equals(model.write_chunk_size, None)
+    assert_equals(model.read_chunksize, 6)
+    assert_equals(model.write_chunksize, None)

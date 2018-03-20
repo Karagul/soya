@@ -16,29 +16,48 @@ class Soya(object):
     The class initializes with following parameters:
         engine: a `Sqlalchemy.engine` to provide database connection
         input_dict: a dict of {`table_name`: a list of `table_field`}
-        read_chunk_size: an `int`, the chunk size of reading datum from
+        read_chunksize: an `int`, the chunk size of reading datum from
         database, default is None
-        write_chunk_size: an `int`, the chunk size of writing result to
-        database.
+        write_chunksize: an `int`, the chunk size of writing result to
+        database, default is None
     """
     def __init__(
-        self, engine, input_dict, read_chunk_size=None, write_chunk_size=None
+        self, engine, input_dict, read_chunksize=None, write_chunksize=None
     ):
         self.engine = engine
         self.input_dict = input_dict
-        self.read_chunk_size = read_chunk_size
-        self.write_chunk_size = write_chunk_size
+        self.read_chunksize = read_chunksize
+        self.write_chunksize = write_chunksize
 
-    def _datum_import(self, input_dict, read_chunksize):
-        """import datumn from sql
+    def _datum_import(self):
+        """Import datumn from sql
 
-        Args:
-            input_dict: a dict of {`table_name`: a list of `table_field`}
-            read_chunk_size: an `int`, the chunk size of reading datum from
+        Return:
+            datum: a `dict` of  (`DataFrame` or `iterator` if read chunksize is not None)
         """
         return {
             tablename: pd.read_sql(
                 'select {0} from {1}'.format(','.join(fields), tablename),
-                self.engine, chunksize=self.read_chunk_size
-            ) for tablename, fields in input_dict
+                self.engine, chunksize=self.read_chunksize
+            ) for tablename, fields in self.input_dict
         }
+
+    def model(self, datum):
+        """Main process method to cal the datum
+
+        Args:
+            datum: a `dict` of  (`DataFrame` or `iterator` if read chunksize is not None)
+
+        Return:
+            result: `DataFrame`
+        """
+        return None
+
+    def run(self, result_name)
+        """Run model to database
+
+        Args:
+            result_name: `str` of output result name
+        """
+        datum = self._datum_import()
+
