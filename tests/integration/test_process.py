@@ -15,7 +15,8 @@ class TestDatumImport(object):
             'mysql+mysqldb://root:password@mysql:3306/soya_test?charset=utf8',
             echo=False, encoding='utf8'
         )
-        pd.DataFrame({'num1': [7, 8, 9]}).to_sql(
+        init_data = pd.DataFrame({'num1': [7, 8, 9]})
+        init_data.to_sql(
             name='table0', con=self.test_engine,
             if_exists='replace', index=False
         )
