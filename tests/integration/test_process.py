@@ -1,7 +1,6 @@
 # coding: utf-8
 import pandas as pd
 
-from nose.tools import assert_equals
 from sqlalchemy import create_engine
 
 from soya import Soya
@@ -25,9 +24,9 @@ class TestDatumImport(object):
             engine=self.test_engine,
             input_dict={'table0': ['num1', ]}
         )
-        print test_soya._datum_import()
+        expect_results = {'table0': pd.DataFrame({'num1': [7, 8, 9]})}
+        results = test_soya._datum_import()
 
-        assert_equals(
-            test_soya._datum_import(),
-            {'table0': pd.DataFrame({'num1': [7, 8, 9]})}
-        )
+        for key, value in expect_results.items():
+            assert value.equal(results[key])
+
