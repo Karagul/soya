@@ -40,7 +40,9 @@ class TestDatumImport(object):
             input_dict={'table0': ['num1', ]},
             read_chunksize=2
         )
-        expect_results = {'table0': pd.DataFrame({'num1': iter([[7, 8], [9]]})}
+        expect_results = {
+            'table0': pd.DataFrame({'num1': iter([[7, 8], [9]])})
+        }
         results = test_soya._datum_import()
         print results['table0']
 
