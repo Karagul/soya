@@ -40,7 +40,7 @@ class Soya(object):
             tablename: pd.read_sql(
                 'select {0} from {1}'.format(','.join(fields), tablename),
                 self.engine, chunksize=self.read_chunksize
-            ) for tablename, fields in self.input_dict
+            ) for tablename, fields in self.input_dict.items()
         }
 
     def model(self, datum):
