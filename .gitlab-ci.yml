@@ -24,7 +24,7 @@ services:
 
 variables:
     MYSQL_DATABASE: soya_test
-    MYSQL_ROOT_PASSWORD: mysql
+    MYSQL_ROOT_PASSWORD: password
 
 deploy:
     stage: deploy
