@@ -57,13 +57,14 @@ class TestRun(object):
             if_exists='replace', index=False
         )
         self.expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
+        self.input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']}
 
     def test_soya_run_no_chunk(self):
         """Check if `Soya.run` works with no chunksize
         """
         test_soya = Soya1(
             engine=self.test_engine,
-            input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']}
+            input_dict=self.input_dict
         )
 
         test_soya.run('table_result')
@@ -79,7 +80,7 @@ class TestRun(object):
         """
         test_soya = Soya1(
             engine=self.test_engine,
-            input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
+            input_dict=self.input_dict,
             write_chunksize=1
         )
 
@@ -98,7 +99,7 @@ class TestRun(object):
         """
         test_soya = Soya2(
             engine=self.test_engine,
-            input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
+            input_dict=self.input_dict,
             read_chunksize=2
         )
 
