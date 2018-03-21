@@ -107,6 +107,7 @@ class TestRun(object):
             read_chunksize=2
         )
         expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
+        print list(test_soya._data_import())
 
         test_soya.run('table_result2')
 
