@@ -80,11 +80,11 @@ class TestRun(object):
         test_soya = Soya1(
             engine=self.test_engine,
             input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
-            wirte_chunksize=1
+            write_chunksize=1
         )
         expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
 
-        test_soya.run('table_result')
+        test_soya.run('table_result2')
 
         results = pd.read_sql('select num from table_result', self.test_engine)
 
