@@ -22,8 +22,10 @@ class Soya2(Soya):
     """Child class 2 of Soya to rewrite the model
     """
     def model(self, datum):
+        print '9', list(datum)
         datum, datum_copy = tee(datum)
         print '1', datum
+        print '11', list(datum)
         for datum_chunk in datum:
             print '2',type(datum_chunk)
             print datum_chunk
