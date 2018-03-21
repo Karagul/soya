@@ -43,7 +43,7 @@ class TestRun(object):
 
         test_soya.run('table_result')
 
-        results = pd.read_sql() # todo
+        results = pd.read_sql('select num from table_result', self.test_engine) # todo
 
         pd.testing.assert_frame_equal(expect_results['table_result'], results)
 
