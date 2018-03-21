@@ -8,10 +8,17 @@ from nose.tools import assert_equals
 from soya import Soya
 
 
+class TestSoya(Soya):
+    """Child class of Soya to test
+    """
+    def model(self, model):
+        return None
+
+
 def test_Soya_init():
     """Check if `Soya.__init__` works
     """
-    model = Soya(
+    model = TestSoya(
         engine='test', input_dict={'test': ['test']}, read_chunksize=6
     )
 
