@@ -23,7 +23,10 @@ class Soya2(Soya):
     """
     def model(self, datum):
         datum, datum_copy = tee(datum)
+        print '1', datum
         for datum_chunk in datum:
+            print '2',type(datum_chunk)
+            print datum_chunk
             print datum_chunk['table2']['num1']
             print type(datum_chunk['table2']['num1'])
 #        num2 = [
