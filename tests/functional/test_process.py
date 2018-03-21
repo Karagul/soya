@@ -1,6 +1,7 @@
 # coding: utf-8
 import pandas as pd
 
+from itertools import tee
 from sqlalchemy import create_engine
 
 from soya import Soya
@@ -12,6 +13,30 @@ class Soya1(Soya):
     def model(self, datum):
         num1 = datum['table1']['num1'].sum() + datum['table1']['num2'].sum()
         num2 = datum['table2']['num1'].sum()
+        return pd.DataFrame({
+            'num': [num1, num2]
+        })
+
+
+class Soya2(Soya):
+    """Child class 2 of Soya to rewrite the model
+    """
+    def model(self, datum):
+        datum, datum_copy = tee(datum)
+        num1 = sum(
+            [
+                (
+                    datum_chunk['table1']['num1'].sum() +
+                    datum_chunk['table1']['num2'].sum()
+                ) for datum_chunk in datum
+            ]
+        )
+        num2 = sum(
+            [
+                datum_chunk['table2']['num1'].sum()
+                for datum_chunk in datum_copy
+            ]
+        )
         return pd.DataFrame({
             'num': [num1, num2]
         })
@@ -50,7 +75,7 @@ class TestRun(object):
         pd.testing.assert_frame_equal(expect_results['table_result'], results)
 
     def test_soya_run_write_chunk(self):
-        """Check if `Soya.run` works with no chunksize
+        """Check if `Soya.run` works with write chunksize
         """
         test_soya = Soya1(
             engine=self.test_engine,
@@ -64,6 +89,10 @@ class TestRun(object):
         results = pd.read_sql('select num from table_result', self.test_engine)
 
         pd.testing.assert_frame_equal(expect_results['table_result'], results)
+
+    def test_soya_run_read_chunk(self):
+        """Check if `Soya.run` works with write chunksize
+        """
 
 #    def test_soya_datum_import_chunk(self):
 #        """Check if `_datum_import` works with chunksize
