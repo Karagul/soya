@@ -84,32 +84,24 @@ class TestRun(object):
         )
         expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
 
-        test_soya.run('table_result2')
+        test_soya.run('table_result1')
 
         results = pd.read_sql('select num from table_result', self.test_engine)
 
         pd.testing.assert_frame_equal(expect_results['table_result'], results)
 
     def test_soya_run_read_chunk(self):
-        """Check if `Soya.run` works with write chunksize
+        """Check if `Soya.run` works with read chunksize
         """
+       test_soya = Soya2(
+            engine=self.test_engine,
+            input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
+            read_chunksize=2
+        )
+        expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
 
-#    def test_soya_datum_import_chunk(self):
-#        """Check if `_datum_import` works with chunksize
-#        """
-#        test_soya = Soya(
-#            engine=self.test_engine,
-#            input_dict={'table0': ['num1', ]},
-#            read_chunksize=2
-#        )
-#        expect_results = {
-#            'table0': [
-#                pd.DataFrame({'num1': [7, 8]}),
-#                pd.DataFrame({'num1': [9, ]})
-#            ]
-#        }
-#        results = test_soya._datum_import()
-#
-#        for key, expect_values in expect_results.items():
-#            for expect_value, value in zip(expect_values, results[key]):
-#                pd.testing.assert_frame_equal(expect_value, value)
+        test_soya.run('table_result2')
+
+        results = pd.read_sql('select num from table_result', self.test_engine)
+
+        pd.testing.assert_frame_equal(expect_results['table_result'], results)
