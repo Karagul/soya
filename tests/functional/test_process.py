@@ -23,6 +23,11 @@ class Soya2(Soya):
     """
     def model(self, datum):
         datum, datum_copy = tee(datum)
+        num2 = [
+            datum_chunk['table2']['num1'].sum()
+            for datum_chunk in datum_copy
+        ]
+        print 'num2', num2
         num1 = sum(
             [
                 (
@@ -31,11 +36,6 @@ class Soya2(Soya):
                 ) for datum_chunk in datum
             ]
         )
-        num2 = [
-            datum_chunk['table2']['num1'].sum()
-            for datum_chunk in datum_copy
-        ]
-        print 'num2', num2
     #    )
         return pd.DataFrame({
             'num': [num1, num2]
@@ -86,9 +86,9 @@ class TestRun(object):
 
         test_soya.run('table_result1')
 
-        results = pd.read_sql('select num from table_result', self.test_engine)
+        results = pd.read_sql('select num from table_result1', self.test_engine)
 
-        pd.testing.assert_frame_equal(expect_results['table_result1'], results)
+        pd.testing.assert_frame_equal(expect_results['table_result'], results)
 
     def test_soya_run_read_chunk(self):
         """Check if `Soya.run` works with read chunksize
@@ -102,6 +102,6 @@ class TestRun(object):
 
         test_soya.run('table_result2')
 
-        results = pd.read_sql('select num from table_result', self.test_engine)
+        results = pd.read_sql('select num from table_result2', self.test_engine)
 
-        pd.testing.assert_frame_equal(expect_results['table_result2'], results)
+        pd.testing.assert_frame_equal(expect_results['table_result'], results)
