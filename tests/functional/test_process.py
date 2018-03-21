@@ -23,23 +23,26 @@ class Soya2(Soya):
     """
     def model(self, datum):
         datum, datum_copy = tee(datum)
-        num2 = [
-            datum_chunk['table2']['num1'].sum()
-            for datum_chunk in datum_copy
-        ]
-        print 'num2', num2
-        num1 = sum(
-            [
-                (
-                    datum_chunk['table1']['num1'].sum() +
-                    datum_chunk['table1']['num2'].sum()
-                ) for datum_chunk in datum
-            ]
-        )
-    #    )
-        return pd.DataFrame({
-            'num': [num1, num2]
-        })
+        for datum_chunk in datum:
+            print datum_chunk['table2']['num1']
+            print type(datum_chunk['table2']['num1'])
+#        num2 = [
+#            datum_chunk['table2']['num1'].sum()
+#            for datum_chunk in datum_copy
+#        ]
+#        print 'num2', num2
+#        num1 = sum(
+#            [
+#                (
+#                    datum_chunk['table1']['num1'].sum() +
+#                    datum_chunk['table1']['num2'].sum()
+#                ) for datum_chunk in datum
+#            ]
+#        )
+#    #    )
+#        return pd.DataFrame({
+#            'num': [num1, num2]
+#        })
 
 
 class TestRun(object):
