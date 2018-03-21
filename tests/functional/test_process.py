@@ -1,7 +1,6 @@
 # coding: utf-8
 import pandas as pd
 
-from itertools import tee
 from sqlalchemy import create_engine
 
 from soya import Soya
@@ -22,32 +21,23 @@ class Soya2(Soya):
     """Child class 2 of Soya to rewrite the model
     """
     def model(self, datum):
-        print '9', list(datum)
-        datum, datum_copy = tee(datum)
-        print '1', datum
-        print '11', list(datum)
-        for datum_chunk in datum:
-            print '2',type(datum_chunk)
-            print datum_chunk
-            print datum_chunk['table2']['num1']
-            print type(datum_chunk['table2']['num1'])
-#        num2 = [
-#            datum_chunk['table2']['num1'].sum()
-#            for datum_chunk in datum_copy
-#        ]
-#        print 'num2', num2
-#        num1 = sum(
-#            [
-#                (
-#                    datum_chunk['table1']['num1'].sum() +
-#                    datum_chunk['table1']['num2'].sum()
-#                ) for datum_chunk in datum
-#            ]
-#        )
-#    #    )
-#        return pd.DataFrame({
-#            'num': [num1, num2]
-#        })
+        num1 = sum(
+            [
+                (
+                    datum_chunk['num1'].sum() +
+                    datum_chunk['num2'].sum()
+                ) for datum_chunk in datum['table1']
+            ]
+        )
+        num2 = sum(
+            [
+                datum_chunk['num1'].sum()
+                for datum_chunk in datum['table2']
+            ]
+        )
+        return pd.DataFrame({
+            'num': [num1, num2]
+        })
 
 
 class TestRun(object):
@@ -66,6 +56,7 @@ class TestRun(object):
             name='table2', con=self.test_engine,
             if_exists='replace', index=False
         )
+        self.expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
 
     def test_soya_run_no_chunk(self):
         """Check if `Soya.run` works with no chunksize
@@ -74,13 +65,14 @@ class TestRun(object):
             engine=self.test_engine,
             input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']}
         )
-        expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
 
         test_soya.run('table_result')
 
         results = pd.read_sql('select num from table_result', self.test_engine)
 
-        pd.testing.assert_frame_equal(expect_results['table_result'], results)
+        pd.testing.assert_frame_equal(
+            self.expect_results['table_result'], results
+        )
 
     def test_soya_run_write_chunk(self):
         """Check if `Soya.run` works with write chunksize
@@ -90,13 +82,16 @@ class TestRun(object):
             input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
             write_chunksize=1
         )
-        expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
 
         test_soya.run('table_result1')
 
-        results = pd.read_sql('select num from table_result1', self.test_engine)
+        results = pd.read_sql(
+            'select num from table_result1', self.test_engine
+        )
 
-        pd.testing.assert_frame_equal(expect_results['table_result'], results)
+        pd.testing.assert_frame_equal(
+            self.expect_results['table_result'], results
+        )
 
     def test_soya_run_read_chunk(self):
         """Check if `Soya.run` works with read chunksize
@@ -106,11 +101,13 @@ class TestRun(object):
             input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
             read_chunksize=2
         )
-        expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
-        print list(test_soya._datum_import())
 
         test_soya.run('table_result2')
 
-        results = pd.read_sql('select num from table_result2', self.test_engine)
+        results = pd.read_sql(
+            'select num from table_result2', self.test_engine
+        )
 
-        pd.testing.assert_frame_equal(expect_results['table_result'], results)
+        pd.testing.assert_frame_equal(
+            self.expect_results['table_result'], results
+        )
