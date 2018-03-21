@@ -49,6 +49,22 @@ class TestRun(object):
 
         pd.testing.assert_frame_equal(expect_results['table_result'], results)
 
+    def test_soya_run_write_chunk(self):
+        """Check if `Soya.run` works with no chunksize
+        """
+        test_soya = Soya1(
+            engine=self.test_engine,
+            input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
+            wirte_chunksize=1
+        )
+        expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
+
+        test_soya.run('table_result')
+
+        results = pd.read_sql('select num from table_result', self.test_engine)
+
+        pd.testing.assert_frame_equal(expect_results['table_result'], results)
+
 #    def test_soya_datum_import_chunk(self):
 #        """Check if `_datum_import` works with chunksize
 #        """
