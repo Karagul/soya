@@ -93,7 +93,7 @@ class TestRun(object):
     def test_soya_run_read_chunk(self):
         """Check if `Soya.run` works with read chunksize
         """
-       test_soya = Soya2(
+        test_soya = Soya2(
             engine=self.test_engine,
             input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']},
             read_chunksize=2
