@@ -9,8 +9,8 @@ class Soya1(Soya):
     """
     """
     def model(self, datum):
-        num1 = datum['talbe1']['num1'].sum() + datum['talbe1']['num2'].sum()
-        num2 = datum['talbe2']['num1'].sum()
+        num1 = datum['table1']['num1'].sum() + datum['table1']['num2'].sum()
+        num2 = datum['table2']['num1'].sum()
         return pd.DataFrame({
             'num': [num1, num2]
         })
@@ -44,7 +44,7 @@ class TestRun(object):
 
         test_soya.run('table_result')
 
-        results = pd.read_sql('select num from table_result', self.test_engine) # todo
+        results = pd.read_sql('select num from table_result', self.test_engine)
 
         pd.testing.assert_frame_equal(expect_results['table_result'], results)
 
