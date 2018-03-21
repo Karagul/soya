@@ -15,6 +15,7 @@ class Soya1(Soya):
             'num': [num1, num2]
         })
 
+
 class TestRun(object):
     """Functional test class for ``Soya._datum_import``
     """
@@ -27,7 +28,7 @@ class TestRun(object):
             name='table1', con=self.test_engine,
             if_exists='replace', index=False
         )
-        pd.DataFrame({'num1': [7, 8, 9]).to_sql(
+        pd.DataFrame({'num1': [7, 8, 9]}).to_sql(
             name='table2', con=self.test_engine,
             if_exists='replace', index=False
         )
