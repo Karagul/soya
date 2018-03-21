@@ -65,6 +65,6 @@ class Soya(object):
         if result is not None:
             result.to_sql(
                 name=result_name, con=self.engine,
-                chunksize=self.writechunksize, if_exists='append',
+                chunksize=self.write_chunksize, if_exists='append',
                 index=False
             )

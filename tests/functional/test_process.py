@@ -5,8 +5,9 @@ from sqlalchemy import create_engine
 
 from soya import Soya
 
+
 class Soya1(Soya):
-    """
+    """Child class of Soya to rewrite the model
     """
     def model(self, datum):
         num1 = datum['table1']['num1'].sum() + datum['table1']['num2'].sum()
