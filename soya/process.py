@@ -6,6 +6,8 @@
 
 import pandas as pd
 
+from abc import ABCMeta, abstractmethod
+
 
 class Soya(object):
     """The abstract class for implementing the process.
@@ -21,6 +23,8 @@ class Soya(object):
         write_chunksize: an `int`, the chunk size of writing result to
         database, default is None
     """
+    __metaclass__ = ABCMeta
+
     def __init__(
         self, engine, input_dict, read_chunksize=None, write_chunksize=None
     ):
@@ -43,6 +47,7 @@ class Soya(object):
             ) for tablename, fields in self.input_dict.items()
         }
 
+    @abstractmethod
     def model(self, datum):
         """Main process method to cal the datum
 
@@ -53,7 +58,7 @@ class Soya(object):
         Return:
             result: `DataFrame`
         """
-        return None
+        pass
 
     def run(self, result_name):
         """Run model to database
@@ -62,9 +67,8 @@ class Soya(object):
             result_name: `str` of output result name
         """
         result = self.model(self._datum_import())
-        if result is not None:
-            result.to_sql(
-                name=result_name, con=self.engine,
-                chunksize=self.write_chunksize, if_exists='append',
-                index=False
-            )
+        result.to_sql(
+            name=result_name, con=self.engine,
+            chunksize=self.write_chunksize, if_exists='append',
+            index=False
+        )

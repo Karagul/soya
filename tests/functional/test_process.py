@@ -57,7 +57,7 @@ class TestRun(object):
             if_exists='replace', index=False
         )
         self.expect_results = {'table_result': pd.DataFrame({'num': [21, 24]})}
-        self.input_dict={'table1': ['num1', 'num2'], 'table2': ['num1']}
+        self.input_dict = {'table1': ['num1', 'num2'], 'table2': ['num1']}
 
     def test_soya_run_no_chunk(self):
         """Check if `Soya.run` works with no chunksize
