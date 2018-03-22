@@ -30,7 +30,7 @@ deploy:
     stage: deploy
     script:
         - echo "$PYPI_INI" > ~/.pypirc
-        - python setup.py sdist upload
+        - python setup.py bdist_wheel upload
     environment:
         name: deploy
     only:
