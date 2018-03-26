@@ -22,16 +22,19 @@ class Soya(object):
         database, default is None
         write_chunksize: an `int`, the chunk size of writing result to
         database, default is None
+        args: an `dict`, the args to cal different result, default is None
     """
     __metaclass__ = ABCMeta
 
     def __init__(
-        self, engine, input_dict, read_chunksize=None, write_chunksize=None
+        self, engine, input_dict, read_chunksize=None,
+        write_chunksize=None, args=None
     ):
         self.engine = engine
         self.input_dict = input_dict
         self.read_chunksize = read_chunksize
         self.write_chunksize = write_chunksize
+        self.args = args
 
     def _datum_import(self):
         """Import datumn from sql
