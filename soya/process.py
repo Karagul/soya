@@ -22,7 +22,6 @@ class Soya(object):
         database, default is None
         write_chunksize: an `int`, the chunk size of writing result to
         database, default is None
-        args: an `dict`, the args to cal different result, default is None
     """
     __metaclass__ = ABCMeta
 
@@ -34,7 +33,6 @@ class Soya(object):
         self.input_dict = input_dict
         self.read_chunksize = read_chunksize
         self.write_chunksize = write_chunksize
-        self.args = args
 
     def _datum_import(self):
         """Import datumn from sql
@@ -57,11 +55,12 @@ class Soya(object):
         Args:
             datum: a `dict` of  (`DataFrame` or `iterator`
                     if read chunksize is not None)
+            args: an `dict`, the args to cal different result, default is None
 
         Return:
             result: `DataFrame`
         """
-        pass
+        return
 
     def run(self, result_name):
         """Run model to database
