@@ -27,7 +27,7 @@ class Soya(object):
 
     def __init__(
         self, engine, input_dict, read_chunksize=None,
-        write_chunksize=None, args=None
+        write_chunksize=None
     ):
         self.engine = engine
         self.input_dict = input_dict
@@ -49,7 +49,7 @@ class Soya(object):
         }
 
     @abstractmethod
-    def model(self, datum):
+    def model(self, datum, args=None):
         """Main process method to cal the datum
 
         Args:
