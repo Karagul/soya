@@ -26,7 +26,8 @@ class Soya(object):
     __metaclass__ = ABCMeta
 
     def __init__(
-        self, engine, input_dict, read_chunksize=None, write_chunksize=None
+        self, engine, input_dict, read_chunksize=None,
+        write_chunksize=None
     ):
         self.engine = engine
         self.input_dict = input_dict
@@ -48,17 +49,18 @@ class Soya(object):
         }
 
     @abstractmethod
-    def model(self, datum):
+    def model(self, datum, args=None):
         """Main process method to cal the datum
 
         Args:
             datum: a `dict` of  (`DataFrame` or `iterator`
                     if read chunksize is not None)
+            args: an `dict`, the args to cal different result, default is None
 
         Return:
             result: `DataFrame`
         """
-        pass
+        return
 
     def run(self, result_name):
         """Run model to database
