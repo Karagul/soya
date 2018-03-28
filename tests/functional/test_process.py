@@ -9,7 +9,7 @@ from soya import Soya
 class Soya1(Soya):
     """Child class of Soya to rewrite the model
     """
-    def model(self, datum):
+    def model(self, datum, args):
         num1 = datum['table1']['num1'].sum() + datum['table1']['num2'].sum()
         num2 = datum['table2']['num1'].sum()
         return pd.DataFrame({
@@ -20,7 +20,7 @@ class Soya1(Soya):
 class Soya2(Soya):
     """Child class 2 of Soya to rewrite the model
     """
-    def model(self, datum):
+    def model(self, datum, args):
         num1 = sum(
             [
                 (
