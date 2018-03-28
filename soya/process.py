@@ -49,7 +49,7 @@ class Soya(object):
         }
 
     @abstractmethod
-    def model(self, datum, args=None):
+    def model(self, datum, args):
         """Main process method to cal the datum
 
         Args:
@@ -62,13 +62,14 @@ class Soya(object):
         """
         return
 
-    def run(self, result_name):
+    def run(self, result_name, args=None):
         """Run model to database
 
         Args:
             result_name: `str` of output result name
+            args: an `dict`, the args to cal different result, default is None
         """
-        result = self.model(self._datum_import())
+        result = self.model(self._datum_import(), args)
         result.to_sql(
             name=result_name, con=self.engine,
             chunksize=self.write_chunksize, if_exists='append',
