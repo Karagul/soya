@@ -8,7 +8,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='chance-soya',
-    version="0.0.1",
+    version="0.0.2",
     description='The python project for calculating financial indexes',
     url='https://github.com/chancefocus/soya',
     author='Jimin Huang',
